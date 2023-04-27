@@ -10,14 +10,6 @@ public class Email {
         this.password = "Accio@123";
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmailId() {
         return emailId;
     }
@@ -34,32 +26,48 @@ public class Email {
         // 4. It contains at least one digit
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
 
-        if(!this.password.equals(oldPassword)){
-           return;
+        if(oldPassword.equals(password)){
+            if(isValid(newPassword)){
+                System.out.println("Password changed successfully!");
+                this.password = newPassword;
+            }
+            else{
+                System.out.println("The new password is not valid!");
+            }
         }
-
-        int len = newPassword.length();
-        boolean uppercase = false;
-        boolean lowercase = false;
-        boolean onedigit = false;
-        boolean special = false;
-
-        for(char ch : newPassword.toCharArray()){
-           if(Character.isUpperCase(ch))
-               uppercase = true;
-           if(Character.isLowerCase(ch))
-               lowercase = true;
-           if(Character.isDigit(ch))
-               onedigit = true;
-           if(!Character.isLetterOrDigit(ch))
-               special = true;
-
+        else{
+            System.out.println("The given password does not match current password!");
         }
+    }
 
-        if(len < 8 || !uppercase || !lowercase || !onedigit || !special){
-            return;
+    private boolean isValid(String password){
+        boolean cLetter = false;
+        boolean sLetter = false;
+        boolean no = false;
+        boolean specialCharacter = false;
+
+        if(password.length() < 8){
+            return false;
         }
+        for(int i=0; i<password.length(); i++){
+            char ch = password.charAt(i);
 
-        this.password = newPassword;
+            if(ch >= 'A' && ch <= 'Z'){
+                cLetter = true;
+            }
+            else if(ch >= 'a' && ch <= 'z'){
+                sLetter = true;
+            }
+            else if(ch >= '0' && ch <= '9'){
+                no = true;
+            }
+            else{
+                specialCharacter = true;
+            }
+        }
+        if(cLetter && sLetter && no && specialCharacter){
+            return true;
+        }
+        return false;
     }
 }
